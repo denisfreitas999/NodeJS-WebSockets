@@ -7,3 +7,5 @@
 `npm init @eslint/config`
 
 `npm install nodemon -D`
+
+`npm install socket.io`
