@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/servidor.js"
+    "dev": "nodemon src/socket-back.js"
   },
   "author": "Denisson Freitas",
   "license": "ISC",
