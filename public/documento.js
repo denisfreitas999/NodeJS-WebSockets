@@ -1,13 +1,15 @@
-// eslint-disable-next-line no-unused-vars, no-undef
-const socket = io();
+// eslint-disable-next-line import/no-cycle
+import emitirTextoEditor from './socket-front.js';
 
 // eslint-disable-next-line no-undef
 const textoEditor = document.getElementById('editor-texto');
 
 textoEditor.addEventListener('keyup', () => {
-  socket.emit('texto_editor', textoEditor.value);
+  emitirTextoEditor(textoEditor.value);
 });
 
-socket.on('texto_editor_clientes', (texto) => {
+function atualizaTextoEditor(texto) {
   textoEditor.value = texto;
-});
+}
+
+export default atualizaTextoEditor;
