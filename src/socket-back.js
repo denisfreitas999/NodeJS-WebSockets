@@ -41,14 +41,20 @@ io.on('connection', (socket) => {
     devolverDocumentos(documentos);
   });
   socket.on('adicionar_documento', async (nome) => {
-    try {
-      const resultado = await adicionarDocumento(nome);
-      console.log(`Adicionado o documento: ${resultado}`);
-      if (resultado) {
-        io.emit('adicionar_documento_interface', nome);
+    const documentoExiste = (await encontrarDocumento(nome)) !== null;
+
+    if (documentoExiste) {
+      socket.emit('documento_existente', nome);
+    } else {
+      try {
+        const resultado = await adicionarDocumento(nome);
+        console.log(`Adicionado o documento: ${resultado}`);
+        if (resultado) {
+          io.emit('adicionar_documento_interface', nome);
+        }
+      } catch (error) {
+        console.error(`Erro ao adicionar documento: ${error.message}`);
       }
-    } catch (error) {
-      console.error(`Erro ao adicionar documento: ${error.message}`);
     }
   });
   socket.on('selecionar_documento', async (nomeDocumento, devolverTexto) => {
