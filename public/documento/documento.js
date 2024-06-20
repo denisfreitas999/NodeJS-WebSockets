@@ -1,8 +1,9 @@
 /* eslint-disable no-undef */
 // eslint-disable-next-line import/no-cycle
-import { emitirTextoEditor, selecionarDocumento, emitirExcluirDocumento } from './socket-front.js';
+import { emitirTextoEditor, selecionarDocumento, emitirExcluirDocumento } from './socket-documento.js';
 
 const parametros = new URLSearchParams(window.location.search);
+
 const nomeDocumento = parametros.get('nome');
 
 const textoEditor = document.getElementById('editor-texto');
@@ -27,6 +28,7 @@ function atualizaTextoEditor(texto) {
 }
 
 botaoExcluir.addEventListener('click', () => {
+  console.log('passei');
   emitirExcluirDocumento(nomeDocumento);
 });
 
