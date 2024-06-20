@@ -11,3 +11,5 @@
 `npm install socket.io`
 
 `npm install mongoose` 
+
+`npm install mongodb`
