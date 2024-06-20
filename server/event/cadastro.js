@@ -9,7 +9,7 @@ export default function registrarEventosCadastro(socket, io) {
       if (cadastrar) {
         socket.emit('cadastro_sucesso');
       } else {
-        socket.emit('cadastro_error');
+        socket.emit('cadastro_erro');
       }
     } else {
       socket.emit('usuario_ja_existente');
