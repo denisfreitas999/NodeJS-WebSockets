@@ -26,12 +26,31 @@ async function obterDocumentos() {
   return documentos;
 }
 
+async function adicionarDocumento(nome) {
+  const documento = {
+    nome,
+    texto: '',
+  };
+  const resultado = await DocumentoModel.create(documento);
+  return resultado;
+}
+
 io.on('connection', (socket) => {
   socket.on('obter_documentos', async (devolverDocumentos) => {
     const documentos = await obterDocumentos();
     devolverDocumentos(documentos);
   });
-  console.log('Um cliente se conectou!', socket.id);
+  socket.on('adicionar_documento', async (nome) => {
+    try {
+      const resultado = await adicionarDocumento(nome);
+      console.log(`Adicionado o documento: ${resultado}`);
+      if (resultado) {
+        io.emit('adicionar_documento_interface', nome);
+      }
+    } catch (error) {
+      console.error(`Erro ao adicionar documento: ${error.message}`);
+    }
+  });
   socket.on('selecionar_documento', async (nomeDocumento, devolverTexto) => {
     socket.join(nomeDocumento);
     const documento = await encontrarDocumento(nomeDocumento);
