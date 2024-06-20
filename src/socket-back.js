@@ -83,6 +83,8 @@ io.on('connection', (socket) => {
   });
   socket.on('excluir_documento', async (nomeDocumento) => {
     const resultado = await excluirDocumento(nomeDocumento);
-    console.log(resultado);
+    if (resultado) {
+      io.emit('excluir_documento_sucesso', nomeDocumento);
+    }
   });
 });
