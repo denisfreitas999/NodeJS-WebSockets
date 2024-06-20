@@ -21,7 +21,16 @@ async function atualizaDocumento(dto) {
   return atualizacao;
 }
 
+async function obterDocumentos() {
+  const documentos = await DocumentoModel.find();
+  return documentos;
+}
+
 io.on('connection', (socket) => {
+  socket.on('obter_documentos', async (devolverDocumentos) => {
+    const documentos = await obterDocumentos();
+    devolverDocumentos(documentos);
+  });
   console.log('Um cliente se conectou!', socket.id);
   socket.on('selecionar_documento', async (nomeDocumento, devolverTexto) => {
     socket.join(nomeDocumento);
