@@ -6,7 +6,11 @@ const usuarioSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  senha: {
+  hashSenha: {
+    type: String,
+    required: true,
+  },
+  salSenha: {
     type: String,
     required: true,
   },

@@ -1,4 +1,5 @@
 import UsuarioModel from '../models/Usuario.js';
+import criaHashESalSenha from '../utils/criaHashESalSenha.js';
 
 const usuarioController = {
   cadastrar: async (dados) => {
@@ -8,9 +9,12 @@ const usuarioController = {
         throw new Error('Dados não foram fornecidos.');
       }
 
+      const { hashSenha, salSenha } = criaHashESalSenha(dados.senha);
+
       const usuario = await UsuarioModel.create({
         nome: dados.usuario,
-        senha: dados.senha,
+        hashSenha,
+        salSenha,
       });
 
       return usuario;
