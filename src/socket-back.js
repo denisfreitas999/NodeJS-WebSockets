@@ -21,8 +21,47 @@ async function atualizaDocumento(dto) {
   return atualizacao;
 }
 
+async function obterDocumentos() {
+  const documentos = await DocumentoModel.find();
+  return documentos;
+}
+
+async function adicionarDocumento(nome) {
+  const documento = {
+    nome,
+    texto: '',
+  };
+  const resultado = await DocumentoModel.create(documento);
+  return resultado;
+}
+
+async function excluirDocumento(nomeDocumento) {
+  const resultado = await DocumentoModel.findOneAndDelete({ nome: nomeDocumento });
+  return resultado;
+}
+
 io.on('connection', (socket) => {
-  console.log('Um cliente se conectou!', socket.id);
+  socket.on('obter_documentos', async (devolverDocumentos) => {
+    const documentos = await obterDocumentos();
+    devolverDocumentos(documentos);
+  });
+  socket.on('adicionar_documento', async (nome) => {
+    const documentoExiste = (await encontrarDocumento(nome)) !== null;
+
+    if (documentoExiste) {
+      socket.emit('documento_existente', nome);
+    } else {
+      try {
+        const resultado = await adicionarDocumento(nome);
+        console.log(`Adicionado o documento: ${resultado}`);
+        if (resultado) {
+          io.emit('adicionar_documento_interface', nome);
+        }
+      } catch (error) {
+        console.error(`Erro ao adicionar documento: ${error.message}`);
+      }
+    }
+  });
   socket.on('selecionar_documento', async (nomeDocumento, devolverTexto) => {
     socket.join(nomeDocumento);
     const documento = await encontrarDocumento(nomeDocumento);
@@ -41,5 +80,11 @@ io.on('connection', (socket) => {
   socket.on('disconnect', (motivo) => {
     console.log(`Cliente "${socket.id}" desconectado!
     Motivo: ${motivo}`);
+  });
+  socket.on('excluir_documento', async (nomeDocumento) => {
+    const resultado = await excluirDocumento(nomeDocumento);
+    if (resultado) {
+      io.emit('excluir_documento_sucesso', nomeDocumento);
+    }
   });
 });

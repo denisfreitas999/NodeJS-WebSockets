@@ -2,9 +2,14 @@ import mongoose from 'mongoose';
 
 // Definir o esquema para a coleção 'documentos'
 const documentoSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
-  nome: { type: String, required: true },
-  texto: { type: String, required: true },
+  nome: {
+    type: String,
+    required: true,
+  },
+  texto: {
+    type: String,
+    default: '',
+  },
 });
 
 // Criar o modelo para a coleção 'documentos'

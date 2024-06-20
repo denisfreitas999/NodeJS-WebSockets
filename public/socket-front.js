@@ -1,4 +1,5 @@
-import atualizaTextoEditor from './documento.js';
+/* eslint-disable import/no-cycle */
+import { atualizaTextoEditor, alertarERedirecionar } from './documento.js';
 
 // eslint-disable-next-line no-undef
 const socket = io();
@@ -17,4 +18,12 @@ socket.on('texto_editor_clientes', (texto) => {
   atualizaTextoEditor(texto);
 });
 
-export { emitirTextoEditor, selecionarDocumento };
+function emitirExcluirDocumento(nomeDocumento) {
+  socket.emit('excluir_documento', nomeDocumento);
+}
+
+socket.on('excluir_documento_sucesso', (nomeDocumento) => {
+  alertarERedirecionar(nomeDocumento);
+});
+
+export { emitirTextoEditor, selecionarDocumento, emitirExcluirDocumento };
