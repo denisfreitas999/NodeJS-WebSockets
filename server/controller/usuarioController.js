@@ -3,16 +3,16 @@ import criaHashESalSenha from '../utils/criaHashESalSenha.js';
 
 const usuarioController = {
   cadastrar: async (dados) => {
-    console.log(dados);
+    const { nome, senha } = dados;
     try {
-      if (!dados) {
+      if (!nome || !senha) {
         throw new Error('Dados não foram fornecidos.');
       }
 
-      const { hashSenha, salSenha } = criaHashESalSenha(dados.senha);
+      const { hashSenha, salSenha } = criaHashESalSenha(senha);
 
       const usuario = await UsuarioModel.create({
-        nome: dados.usuario,
+        nome,
         hashSenha,
         salSenha,
       });
@@ -23,10 +23,10 @@ const usuarioController = {
     }
   },
 
-  buscarUsuario: async (dados) => {
+  buscarUsuario: async (nome) => {
     try {
       const usuario = await UsuarioModel.findOne({
-        nome: dados.usuario,
+        nome,
       });
       return usuario;
     } catch (error) {

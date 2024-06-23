@@ -1,15 +1,15 @@
 import usuarioController from '../controller/usuarioController.js';
 
 export default function registrarEventosCadastro(socket, io) {
-  socket.on('cadastrar_usuario', async (dados) => {
-    const usuario = await usuarioController.buscarUsuario(dados);
+  socket.on('cadastrar_usuario', async ({ nome, senha }) => {
+    const usuario = await usuarioController.buscarUsuario(nome);
 
     if (usuario === null) {
-      const cadastrar = await usuarioController.cadastrar(dados);
+      const cadastrar = await usuarioController.cadastrar({ nome, senha });
       if (cadastrar) {
         socket.emit('cadastro_sucesso');
       } else {
-        socket.emit('cadastro_error');
+        socket.emit('cadastro_erro');
       }
     } else {
       socket.emit('usuario_ja_existente');

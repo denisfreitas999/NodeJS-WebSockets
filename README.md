@@ -77,6 +77,10 @@ Finalmente, aprimoramos ainda mais nossa aplicação Alura Docs com funcionalida
 
 `npm install mongodb`
 
+`npm install jsonwebtoken`
+
+`npm install dotenv`
+
 ## 7. Estrutura do Projeto
 ```
 📦curso-nodejs-websockets

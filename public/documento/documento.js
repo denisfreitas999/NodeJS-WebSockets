@@ -28,7 +28,6 @@ function atualizaTextoEditor(texto) {
 }
 
 botaoExcluir.addEventListener('click', () => {
-  console.log('passei');
   emitirExcluirDocumento(nomeDocumento);
 });
 
