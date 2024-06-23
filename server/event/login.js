@@ -1,5 +1,6 @@
 import usuarioController from '../controller/usuarioController.js';
 import autenticarUsuario from '../utils/autenticarUsuario.js';
+import gerarJWT from '../utils/gerarJWT.js';
 
 export default function registrarEventosLogin(socket, io) {
   socket.on('autenticar_usuario', async ({ nome, senha }) => {
@@ -10,7 +11,9 @@ export default function registrarEventosLogin(socket, io) {
     } else {
       const autenticado = autenticarUsuario(senha, usuario);
       if (autenticado) {
-        socket.emit('autenticacao_sucesso');
+        const tokenJWT = gerarJWT({ nomeUsuario: nome });
+        /* console.log(tokenJWT); */
+        socket.emit('autenticacao_sucesso', tokenJWT);
       } else {
         socket.emit('autenticacao_erro');
       }
