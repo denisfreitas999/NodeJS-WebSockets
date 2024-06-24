@@ -1,8 +1,19 @@
+/* eslint-disable no-undef */
 /* eslint-disable import/no-cycle */
+import { obterCookie } from '../utils/cookies.js';
 import { atualizaTextoEditor, alertarERedirecionar } from './documento.js';
 
 // eslint-disable-next-line no-undef
-const socket = io();
+const socket = io('/usuarios', {
+  auth: {
+    token: obterCookie('tokenJWT'),
+  },
+});
+
+socket.on('connect_error', (erro) => {
+  alert(erro);
+  window.location.href = '/login/index.html';
+});
 
 function selecionarDocumento(nome) {
   socket.emit('selecionar_documento', nome, (texto) => {

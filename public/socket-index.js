@@ -1,8 +1,13 @@
 // eslint-disable-next-line import/no-cycle
 import { inserirLinkDocumento, removerLinkDocumento } from './index.js';
+import { obterCookie } from './utils/cookies.js';
 
 /* eslint-disable no-undef */
-const socket = io();
+const socket = io('/usuarios', {
+  auth: {
+    token: obterCookie('tokenJWT'),
+  },
+});
 
 socket.on('connect_error', (erro) => {
   alert(erro);
