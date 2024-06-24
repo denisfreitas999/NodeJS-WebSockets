@@ -1,11 +1,18 @@
 import documentoController from '../controller/documentoController.js';
+import { adicionarConexao, obterUsuariosDocumento } from '../utils/conexoesDocumentos.js';
 
 export default function registrarEventosDocumentos(socket, io) {
   socket.on('selecionar_documento', async ({ nomeDocumento, nomeUsuario }, devolverTexto) => {
-    console.log(nomeUsuario);
-    socket.join(nomeDocumento);
     const documento = await documentoController.encontrarDocumento(nomeDocumento);
     if (documento) {
+      socket.join(nomeDocumento);
+      adicionarConexao({
+        nomeDocumento,
+        nomeUsuario,
+      });
+
+      const usuariosNoDocumento = obterUsuariosDocumento(nomeDocumento);
+      console.log(usuariosNoDocumento);
       devolverTexto(documento.texto);
     }
   });
