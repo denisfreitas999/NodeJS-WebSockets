@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable import/no-cycle */
 import { obterCookie } from '../utils/cookies.js';
-import { atualizaTextoEditor, alertarERedirecionar } from './documento.js';
+import { atualizaTextoEditor, alertarERedirecionar, tratarAutorizacaoSucesso } from './documento.js';
 
 // eslint-disable-next-line no-undef
 const socket = io('/usuarios', {
@@ -10,13 +10,15 @@ const socket = io('/usuarios', {
   },
 });
 
+socket.on('autorizacao_sucesso', tratarAutorizacaoSucesso);
+
 socket.on('connect_error', (erro) => {
   alert(erro);
   window.location.href = '/login/index.html';
 });
 
-function selecionarDocumento(nome) {
-  socket.emit('selecionar_documento', nome, (texto) => {
+function selecionarDocumento(dadosEntrada) {
+  socket.emit('selecionar_documento', dadosEntrada, (texto) => {
     atualizaTextoEditor(texto);
   });
 }
