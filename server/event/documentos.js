@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 import documentoController from '../controller/documentoController.js';
-import { adicionarConexao, obterUsuariosDocumento } from '../utils/conexoesDocumentos.js';
+import { adicionarConexao, obterUsuariosDocumento, removerConexao } from '../utils/conexoesDocumentos.js';
 
 export default function registrarEventosDocumentos(socket, io) {
   socket.on('selecionar_documento', async ({ nomeDocumento, nomeUsuario }, devolverTexto) => {
@@ -41,6 +41,11 @@ export default function registrarEventosDocumentos(socket, io) {
     socket.on('disconnect', (motivo) => {
       console.log(`Cliente "${socket.id}" desconectado!
       Motivo: ${motivo}`);
+      removerConexao(nomeDocumento, nomeUsuario);
+
+      const usuariosNoDocumento = obterUsuariosDocumento(nomeDocumento);
+
+      io.to(nomeDocumento).emit('usuarios_no_documento', usuariosNoDocumento);
     });
   });
 }
