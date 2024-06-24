@@ -1,7 +1,12 @@
 /* eslint-disable no-undef */
 /* eslint-disable import/no-cycle */
 import { obterCookie } from '../utils/cookies.js';
-import { atualizaTextoEditor, alertarERedirecionar, tratarAutorizacaoSucesso } from './documento.js';
+import {
+  atualizaTextoEditor,
+  alertarERedirecionar,
+  tratarAutorizacaoSucesso,
+  atualizarInterfaceUsuarios,
+} from './documento.js';
 
 // eslint-disable-next-line no-undef
 const socket = io('/usuarios', {
@@ -22,6 +27,8 @@ function selecionarDocumento(dadosEntrada) {
     atualizaTextoEditor(texto);
   });
 }
+
+socket.on('usuarios_no_documento', atualizarInterfaceUsuarios);
 
 function emitirTextoEditor(dto) {
   socket.emit('texto_editor', dto);
