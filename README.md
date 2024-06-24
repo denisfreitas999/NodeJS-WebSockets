@@ -1,7 +1,9 @@
-# Projeto: Alura Docs - Comunicação em Tempo Real com WebSockets, Socket.IO e MongoDB - Alura Course Overview 
+# Alura Course Overview - Projeto: Alura Docs
+
+### Comunicação em Tempo Real com WebSockets, Socket.IO e MongoDB (01 - 05)
+### WebSockets: implemente autenticação e avance no Socket.IO (06 - 10)
 
 ## Índice
-
 1. [Criando o Alura Docs](#1-criando-o-alura-docs)
 2. [Trabalhando com Socket.IO](#2-trabalhando-com-socketio)
 3. [Avançando na Comunicação](#3-avançando-na-comunicação)
